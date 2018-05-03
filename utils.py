@@ -140,15 +140,6 @@ def word_bias_max(wordlist,jsonfile,thresh):   #function to filter out words and
         if word['global_count'] >= thresh:
             unique_words += 1
             wordbias.append([word['word'], max_freq, standard_deviation])
-
-        #TF.IDF OF A WORD
-        tf = []
-        sum = 0
-        for doc in word['local_data']:
-            for cnt in doc['count']:
-                sum += cnt
-            tf.append(doc['count']/cnt)
-
     
     dictionary['dct'] = wordbias
     

@@ -9,7 +9,7 @@ from unidecode import unidecode
 '''
 training_data = 'Pre_Post_Processing/Preprocessing/Training_Data/training.json'
 vocab_count = 'Pre_Post_Processing/vocab2.txt'
-word_biases = 'Pre_Post_Processing/Preprocessing/Training_Results/dict3.json'
+word_biases = 'Pre_Post_Processing/Preprocessing/Training_Results/dict4.json'
 testing_data = 'Pre_Post_Processing/Preprocessing/Test_Data/data.txt'
 testing_results = 'Pre_Post_Processing/Preprocessing/Results/dataout.txt'
 glove_training = 'Pre_Post_Processing/text8.txt'
@@ -52,48 +52,48 @@ print("Number of Books used: "+str(len(ISBN)))
 print("Number of Reviews used: "+str(word_num))
 print("Number of Words used: "+str(count))
 print("Writing word biases into:\t"+word_biases)
-word_bias(word_count,word_biases,5)
+word_bias_max(word_count,word_biases,5)
 
 
 
-print("\n###TRAINING GLOVE:###")
-print("Getting ISBN of all books")
-text8string = ''
-separator = 0
-total_reviews = 0
-results = db.reference().child('ISBN_numbers').get()
-ISBN = results.keys()
-print("filling all book reviews")
-wordcount = 0
-current_book = 0
-while wordcount < 17000000 and current_book < len(ISBN):
-    for x in range(40):
-        child = 'review_' + str(x)
-        str1 = db.reference().child('ISBN_numbers').child(ISBN[current_book]).child(child).get()
-        if isinstance(str1,unicode):
-            str1 = unidecode(str1)
-            total_reviews += 1
-        if isinstance(str1,str):
-            str1 = str1.lower()
-            str1 = ''.join([ c if c.isalnum() else ' ' for c in str1 ])
-            str1.replace('1','one ')
-            str1.replace('2','two ')
-            str1.replace('3','three ')
-            str1.replace('4','four ')
-            str1.replace('5','five ')
-            str1.replace('6','six ')
-            str1.replace('7','seven ')
-            str1.replace('8','eight ')
-            str1.replace('9','nine ')
-            str1.replace('0','zero ')
-            text8string += str1 + ' ' + separator * 'placeholder_string '
-            text8string.replace('  ',' ')
-            wordcount += len(str1.split(' '))
-    current_book += 1
-    print "Appending book Number: " , current_book , " New wordcount: " , wordcount , "\r"
-with open(glove_training, 'w') as glove_text:
-    print("Writing all " + str(total_reviews) + " reviews into:\t"+glove_training)
-    glove_text.write(text8string)
+#print("\n###TRAINING GLOVE:###")
+#print("Getting ISBN of all books")
+#text8string = ''
+#separator = 0
+#total_reviews = 0
+#results = db.reference().child('ISBN_numbers').get()
+#ISBN = results.keys()
+#print("filling all book reviews")
+#wordcount = 0
+#current_book = 0
+#while wordcount < 17000000 and current_book < len(ISBN):
+#    for x in range(40):
+#        child = 'review_' + str(x)
+#        str1 = db.reference().child('ISBN_numbers').child(ISBN[current_book]).child(child).get()
+#        if isinstance(str1,unicode):
+#            str1 = unidecode(str1)
+#            total_reviews += 1
+#        if isinstance(str1,str):
+#            str1 = str1.lower()
+#            str1 = ''.join([ c if c.isalnum() else ' ' for c in str1 ])
+#            str1.replace('1','one ')
+#            str1.replace('2','two ')
+#            str1.replace('3','three ')
+#            str1.replace('4','four ')
+#            str1.replace('5','five ')
+#            str1.replace('6','six ')
+#            str1.replace('7','seven ')
+#            str1.replace('8','eight ')
+#            str1.replace('9','nine ')
+#            str1.replace('0','zero ')
+#            text8string += str1 + ' ' + separator * 'placeholder_string '
+#            text8string.replace('  ',' ')
+#            wordcount += len(str1.split(' '))
+#    current_book += 1
+#    print "Appending book Number: " , current_book , " New wordcount: " , wordcount , "\r"
+#with open(glove_training, 'w') as glove_text:
+#    print("Writing all " + str(total_reviews) + " reviews into:\t"+glove_training)
+#    glove_text.write(text8string)
 
 
 
@@ -102,8 +102,8 @@ print("\n###FILTERING:###")
 '''
     testing on data.txt using dict.json; results placed in dataout.json
 '''
-print("Writing filtered document into:\t"+testing_results)
-sentence_filter(testing_data,testing_results,word_biases)
+#print("Writing filtered document into:\t"+testing_results)
+#sentence_filter(testing_data,testing_results,word_biases)
 
 '''
     Post processing: employing the GloVe algorithm
